@@ -9,7 +9,7 @@ var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}
 var markers = L.markerClusterGroup();
 var data_markers = [];
 
-var foodStyles = ["Mediterraneo", "Hindu", "Vegetariano", "Tapas", "Marisqueria", "Paellas"];
+
 var select = document.getElementById("kind_food_selector");
 
 
@@ -32,7 +32,6 @@ async function getData() {
 }
 // funcion para Cargar kind-food al campo <select>
 function kindOfFood() {
-	// var foodStyles = ["Mediterraneo", "Hindu", "Vegetariano", "Tapas", "Marisuqeria", "Paellas"];
 	foodStyles.sort();
 
 	for (var i = 0; i < foodStyles.length; i++) {
