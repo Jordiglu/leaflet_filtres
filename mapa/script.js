@@ -57,9 +57,7 @@ map.on('click', function () {
 	map.removeLayer(markers);
 });
 
-
-
-// });
+// Filter Function
 function render_to_map(data_markers, filter) {
 	data_markers.forEach(function (index) {
 		if (filter == 'all' || index.kind_food.split(',').includes(filter)) {
