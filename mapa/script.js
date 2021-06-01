@@ -9,8 +9,8 @@ var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}
 var markers = L.markerClusterGroup();
 var data_markers = [];
 
-
-var select = document.getElementById("kind_food_selector");
+var foodStyles = ["mediterraneo", "hindu", "vegetariano", "tapas", "marisqueria", "paellas"];
+var filter = document.getElementById("kind_food_selector");
 
 
 //LLamada al la API  datos almacenados & Loop de markers
@@ -28,7 +28,6 @@ async function getData() {
 		marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress);
 		markers.addLayer(marker).addTo(map);
 	}
-
 }
 // funcion para Cargar kind-food al campo <select>
 function kindOfFood() {
@@ -37,7 +36,7 @@ function kindOfFood() {
 	for (var i = 0; i < foodStyles.length; i++) {
 		option = document.createElement("option");
 		option.innerHTML = foodStyles[i];
-		select.appendChild(option);
+		filter.appendChild(option);
 	}
 }
 kindOfFood();
@@ -46,6 +45,7 @@ kindOfFood();
 $('#kind_food_selector').on('change', function () {
 	render_to_map(data_markers, this.value);
 	console.log(this.value);
+
 
 
 });
@@ -58,44 +58,16 @@ map.on('click', function () {
 });
 
 
-function render_to_map(data_markers) {
-	for (i of data_markers) {
-		if (select.value == "Mediterraneo" && i.name == "Leka") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Mediterraneo" && i.name == "Cala Nuri") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Mediterraneo" && i.name == "Blue Bar") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Mediterraneo" && i.name == "Hoppiness") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Marisqueria" && i.name == "rangoli") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Marisqueria" && i.name == "L'Escamarla") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Paellas" && i.name == "Can Bigotis") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Hindu" && i.name == "Punjab") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Vegetariano" && i.name == "La forastera") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Tapas" && i.name == "La Cova Fumada") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
-		if (select.value == "Vegetariano" && i.name == "La Forastera") {
-			marker = L.marker([i.lat, i.lng]).bindPopup("<b>" + i.name + "</b><br>" + i.adress + "<br>" + i.kind_food).addTo(map);
-		}
 
-	}
+// });
+function render_to_map(data_markers, filter) {
+	data_markers.forEach(function (index) {
+		if (filter == 'all' || index.kind_food.split(',').includes(filter)) {
+			marker = L.marker([index.lat, index.lng]).bindPopup("<b>" + index.name + "</b> " + index.kind_food).addTo(map);
+		}
+	});
 }
+
 
 
 
