@@ -45,24 +45,17 @@ kindOfFood();
 $('#kind_food_selector').on('change', function () {
 	render_to_map(data_markers, this.value);
 	console.log(this.value);
-
-
-
 });
 
-
-//Remove all markers
-
-map.on('click', function () {
-	map.removeLayer(markers);
-});
-
-// Filter Function
 function render_to_map(data_markers, filter) {
 	data_markers.forEach(function (index) {
 		if (filter == 'all' || index.kind_food.split(',').includes(filter)) {
-			marker = L.marker([index.lat, index.lng]).bindPopup("<b>" + index.name + "</b> " + index.kind_food).addTo(map);
-		}
+			marker= L.marker([index.lat, index.lng]).bindPopup("<b>" + index.name + "</b> " + index.kind_food);
+			markers.addLayer(marker);
+				map.addLayer(markers).addTo(map);
+		} 
+		markers.clearLayers(marker);
+		
 	});
 }
 
